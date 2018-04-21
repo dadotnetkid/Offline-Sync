@@ -1,0 +1,14 @@
+﻿@model QouteDetails
+@{
+    Html.DevExpress().CallbackPanel(cbp =>
+    {
+        cbp.Name = "cbpProductDetailPartial";
+        cbp.CallbackRouteValues = new { Controller = "Qoutes", Action = "ProductDetailPartial" };
+        cbp.SetContent(() =>
+        {
+            Html.RenderPartial("_productdetailpartial", ViewBag.Products as Products);
+
+        });
+    }).GetHtml();
+
+}

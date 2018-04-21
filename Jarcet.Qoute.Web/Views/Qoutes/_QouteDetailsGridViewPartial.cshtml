@@ -1,0 +1,73 @@
+
+
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "QouteDetailsGridView";
+
+        settings.Width = Unit.Percentage(100);
+
+        settings.ClientSideEvents.BeginCallback = "function(s,e){OnBeginQouteDetailCallback(s,e)}";
+        settings.ClientSideEvents.EndCallback = "function(s,e){EndBeginQouteDetailCallback(s,e);}";
+        settings.CallbackRouteValues = new { Controller = "Qoutes", Action = "QouteDetailsGridViewPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Qoutes", Action = "QouteDetailsGridViewPartialAddNew", QouteId = ViewBag.QouteId };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Qoutes", Action = "QouteDetailssGridViewPartialUpdate", QouteId = ViewBag.QouteId };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Qoutes", Action = "QouteDetailsGridViewPartialDelete", QouteId = ViewBag.QouteId };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.Settings.ShowFooter = true;
+
+        settings.CommandColumn.Visible = ViewBag.isVisibleCommandColumn;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = false;
+
+        settings.KeyFieldName = "Id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add(col =>
+        {
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            col.FieldName = "Products.ProductId";
+
+        });
+        settings.Columns.Add("Products.ProductName");
+        settings.Columns.Add("Products.Description");
+        settings.Columns.Add("Qty");
+        settings.Columns.Add("Products.Cost");
+        settings.Columns.Add("Total");
+        //settings.SetEditFormTemplateContent(col => {
+        //    Html.RenderAction()
+        //});
+        settings.InitNewRow = (s, e) => { };
+        settings.SetEditFormTemplateContent(col =>
+        {
+            Html.RenderAction("editaddqoutedetailspartial", new { QouteDetailsId = col.KeyValue });
+
+        });
+        settings.SetFooterRowTemplateContent(col =>
+        {
+            var row = $"<div class='row'><div class='col-lg-1'>Total</div><div class='col-lg-11'>{ViewBag.Total}</div></div>";
+            ViewContext.Writer.Write(row);
+        });
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+

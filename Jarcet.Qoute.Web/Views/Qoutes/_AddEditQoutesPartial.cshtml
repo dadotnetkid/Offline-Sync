@@ -1,0 +1,72 @@
+﻿@model Qoutes
+
+
+<div class="row margin-top-10">
+    <div class="col-lg-12 ">
+        @{
+            Html.DevExpress().LabelFor(m => m.DateRequested, lbl => { lbl.Text = "Date"; }).GetHtml();
+            Html.DevExpress().DateEditFor(m => m.DateRequested, settings =>
+            {
+                settings.Width = Unit.Percentage(100);
+            }).GetHtml();
+
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-12 ">
+        @{
+            Html.DevExpress().LabelFor(m => m.Clients.Id, lbl => { lbl.Text = "Client Name"; }).GetHtml();
+            Html.DevExpress().ComboBoxFor(m => m.ClientId, settings =>
+            {
+                settings.Width = Unit.Percentage(100);
+                settings.Properties.ValueField = "Id";
+                settings.Properties.TextField = "ClientName";
+                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s,e){QouteDetailCallback(s,e)}";
+            }).BindList(new UnitOfWork().ClientsRepo.Get()).GetHtml();
+
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-12 ">
+        @{
+            Html.DevExpress().LabelFor(m => m.Subject, lbl => { lbl.Text = "Subject"; }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.Subject, txt =>
+            {
+                txt.Properties.NullDisplayText = "Subject";
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-12">
+
+        @Html.Action("QouteDetailsGridViewPartial")
+
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-lg-12 ">
+        @{
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnQouteUpdate";
+                btn.Text = "Update";
+                btn.ClientSideEvents.Click = "function(s,e){QoutesGridView.UpdateEdit();}";
+                btn.EnableClientSideAPI = false;
+                btn.ClientEnabled = false;
+            }).GetHtml();
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnQouteCancel";
+                btn.Text = "Cancel";
+                btn.ClientSideEvents.Click = "function(s,e){QoutesGridView.CancelEdit();}";
+
+            }).GetHtml();
+        }
+    </div>
+</div>

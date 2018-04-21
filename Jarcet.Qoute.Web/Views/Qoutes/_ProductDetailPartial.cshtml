@@ -1,0 +1,92 @@
+﻿@model Products
+
+<div class="row">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.Id, lbl =>
+            {
+                lbl.Text = "Description";
+            }).GetHtml();
+            Html.DevExpress().ComboBoxFor(m => m.Id, cbo =>
+            {
+                cbo.Name = "ProductId";
+                cbo.Width = Unit.Percentage(100);
+                cbo.Properties.ValueField = "Id";
+                cbo.Properties.TextField = "ProductId";
+                cbo.Properties.ClientSideEvents.SelectedIndexChanged = "function(s,e){cbpProductDetailPartial.PerformCallback({ProductId:s.GetValue()})}";
+            }).BindList(new UnitOfWork().ProductsRepo.Get()).Bind(Model, "Id").GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.ProductName, lbl =>
+            {
+                lbl.Text = "Description";
+            }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.ProductName, txt => { txt.Width = Unit.Percentage(100); }).GetHtml();
+        }
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.Description, lbl =>
+            {
+                lbl.Text = "Description";
+            }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.Description, txt => { txt.Width = Unit.Percentage(100); }).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.Cost, lbl =>
+            {
+                lbl.Text = "Description";
+            }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.Cost, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+                txt.Properties.DisplayFormatString = "n2";
+            }).GetHtml();
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().Label(lbl =>
+            {
+                lbl.Text = "Qty";
+                lbl.AssociatedControlName = "Qty";
+            }).GetHtml();
+            Html.DevExpress().SpinEdit(txt =>
+            {
+                txt.Name = "Qty";
+                txt.Width = Unit.Percentage(100);
+                txt.Properties.MinValue = 0.0M;
+                txt.Properties.NullText = "1";
+            }).GetHtml();
+        }
+    </div>
+
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().Button(btn => {
+                btn.Name = "btnUpdate";
+                btn.Text = "Update";
+                btn.ClientSideEvents.Click = "function(s,e){QouteDetailsGridView.UpdateEdit()}";
+            }).GetHtml();
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnCancel";
+                btn.Text = "Cancel";
+                btn.ClientSideEvents.Click = "function(s,e){QouteDetailsGridView.CancelEdit()}";
+                btn.Style.Add(HtmlTextWriterStyle.MarginLeft, "10px");
+            }).GetHtml();
+        }
+    </div>
+
+</div>

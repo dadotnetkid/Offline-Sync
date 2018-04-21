@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Action("QoutesGridViewPartial")
+
+
+
+<script>
+    var ClientId;
+    var isVisibleCommandColumn;
+    var QouteId;
+    function QouteDetailCallback(s, e) {
+        ClientId = s.GetValue();
+        isVisibleCommandColumn = true;
+        QouteDetailsGridView.AddNewRow();
+        // QouteDetailsGridView.PerformCallback();
+        //    cbpQoutesGridView.PerformCallback();
+    }
+    function OnBeginQouteDetailCallback(s, e) {
+        e.customArgs['ClientId'] = ClientId;
+        e.customArgs['isVisibleCommandColumn'] = isVisibleCommandColumn
+        //e.customArgs['QouteId'] = QouteId;
+        if (s.pageRowCount > 0) {
+            btnQouteUpdate.SetEnabled(true);
+        } else {
+            btnQouteUpdate.SetEnabled(false);
+        }
+    }
+    function EndBeginQouteDetailCallback(s, e) {
+        if (s.pageRowCount > 0) {
+            btnQouteUpdate.SetEnabled(true);
+        } else {
+            btnQouteUpdate.SetEnabled(false);
+        }
+    }
+    function QoutesGridViewBeginCallback(s, e) {
+        //    e.customArgs['Id'] = QouteId;
+
+    }
+</script>

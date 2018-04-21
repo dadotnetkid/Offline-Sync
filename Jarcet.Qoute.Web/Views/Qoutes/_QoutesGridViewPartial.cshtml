@@ -1,0 +1,56 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "QoutesGridView";
+
+        settings.Width = Unit.Percentage(100);
+
+        settings.ClientSideEvents.BeginCallback = "function(s,e){ QoutesGridViewBeginCallback(s,e);}";
+
+        settings.CallbackRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialAddNew" ,Id=ViewBag.QouteId};
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialUpdate", Id = ViewBag.QouteId };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialDelete", Id = ViewBag.QouteId };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true ;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "Id";
+        settings.SettingsPager.PageSize = 15;
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.Settings.ShowColumnHeaders = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.Columns.Add("Clients.ClientName");
+
+        settings.InitNewRow = (s, e) =>
+        {
+
+        };
+        // settings.ClientSideEvents.Init = "function(s,e){ s.AddNewRow();}";
+        settings.SetEditFormTemplateContent(col =>
+        {
+    
+            Html.RenderAction("AddEditQoutesPartial", new { QouteId = DataBinder.Eval(col.DataItem,"Id") });
+
+        });
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
