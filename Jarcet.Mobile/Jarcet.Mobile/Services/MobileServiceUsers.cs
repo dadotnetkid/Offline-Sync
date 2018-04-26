@@ -13,7 +13,7 @@ namespace Jarcet.Mobile.Services
 {
     public static class MobileServiceUsers
     {
-       public static string ApplicationUrl = @"http://192.168.254.102:53197/";
+       public static string ApplicationUrl = @"http://medtek.ml";
         //public static string ApplicationUrl = @"http://192.168.254.102:50782";
         public static string offlineDbPath = @"localstore.db";
         public static MobileServiceUser mobileServiceUser { get; set; }

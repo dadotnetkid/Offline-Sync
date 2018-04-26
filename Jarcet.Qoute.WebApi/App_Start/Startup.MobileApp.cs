@@ -43,9 +43,9 @@ namespace Jarcet.Qoutes.WebApi
                 {
                     // This middleware is intended to be used locally for debugging. By default, HostName will
                     // only have a value when running in an App Service application.
-                    SigningKey = "E2EED04CCCED91FD8170172FD529DAB9E32D65CEF7A50F9FE8545921135A77B4",
-                    ValidAudiences = new[] { "http://192.168.254.102:53197/" },
-                    ValidIssuers = new[] { "http://192.168.254.102:53197/" },
+                    SigningKey = EnvironmentVariables.SigningKey,
+                    ValidAudiences = new[] { EnvironmentVariables.Website,"http://192.168.254.102:53197/" },
+                    ValidIssuers = new[] { EnvironmentVariables.Website, "http://192.168.254.102:53197/" },
                     TokenHandler = config.GetAppServiceTokenHandler()
                     
                 });
@@ -91,6 +91,13 @@ namespace Jarcet.Qoutes.WebApi
                 context.Request.RequestUri,
                 context.Exception);
         }
+    }
+
+    public static class EnvironmentVariables
+    {
+        public const string Website = "http://medtek.ml/app-service/";
+        public const string SigningKey = "E2EED04CCCED91FD8170172FD529DAB9E32D65CEF7A50F9FE8545921135A77B4";
+        
     }
 }
 

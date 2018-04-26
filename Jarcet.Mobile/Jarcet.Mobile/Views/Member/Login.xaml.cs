@@ -22,7 +22,10 @@ namespace Jarcet.Mobile.Views.Member
             InitializeComponent();
             users = new UserViewModel() { Users = new Users() };
             BindingContext = users;
+            if (Device.RuntimePlatform == Device.Android)
+            {
 
+            }
         }
 
         private async void BtnLogin(object sender, EventArgs e)

@@ -7,6 +7,7 @@ namespace Jarcet.Mobile.Models
 {
     public partial class Clients
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         public string CategoryId { get; set; }
         public string FirstName { get; set; }

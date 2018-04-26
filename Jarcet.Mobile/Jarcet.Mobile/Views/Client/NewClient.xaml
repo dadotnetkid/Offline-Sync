@@ -17,18 +17,30 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackLayout>
                 <Label Text="First Name"/>
                 <Entry Text="{Binding Clients.FirstName}"/>
             </StackLayout>
             <StackLayout Grid.Row="1">
-                <Label Text="First Name"/>
+                <Label Text="Middle Name"/>
                 <Entry Text="{Binding Clients.MiddleName}"/>
             </StackLayout>
             <StackLayout Grid.Row="2">
-                <Label Text="First Name"/>
+                <Label Text="Last Name"/>
                 <Entry Text="{Binding Clients.LastName}"/>
+            </StackLayout>
+            <StackLayout Grid.Row="3">
+                <Label Text="Address Line"/>
+                <Entry Text="{Binding Clients.AddressLine1}"/>
+            </StackLayout>
+            <StackLayout Grid.Row="4">
+                <Label Text="Category"/>
+                <Picker ItemsSource="{Binding CategoriesList}" ItemDisplayBinding="{Binding CategoryName}" SelectedIndexChanged="CategoryPicker_SelectedIndexChanged">
+
+                </Picker>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

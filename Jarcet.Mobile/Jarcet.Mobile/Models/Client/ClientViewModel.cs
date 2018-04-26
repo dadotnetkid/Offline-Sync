@@ -29,6 +29,16 @@ namespace Jarcet.Mobile.Models.Client
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<Categories> categoriesList;
+        public ObservableCollection<Categories> CategoriesList
+        {
+            get { return categoriesList; }
+            set
+            {
+                categoriesList = value;
+                OnPropertyChanged();
+            }
+        }
 
     }
 }

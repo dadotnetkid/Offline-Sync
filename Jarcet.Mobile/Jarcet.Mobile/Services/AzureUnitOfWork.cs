@@ -72,6 +72,19 @@ namespace Jarcet.Mobile.Services
             }
             set { productsRepo = value; }
         }
+
+        private AzureRepository<Categories> categoriesRepo;
+        public AzureRepository<Categories> CategoriesRepo
+        {
+            get
+            {
+                if (categoriesRepo == null)
+                    categoriesRepo = new AzureRepository<Categories>(client);
+                return categoriesRepo;
+            }
+            set { categoriesRepo = value; }
+        }
+
         #region Disposable
         public void Dispose()
         {

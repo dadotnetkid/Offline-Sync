@@ -34,9 +34,9 @@ namespace Jarcet.Qoutes.WebApi.Controllers
             var claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Sub, user.Id), new Claim("UserName", user.UserName), new Claim("UserId", user.Id) };
             JwtSecurityToken token = AppServiceLoginHandler.CreateToken(
                 claims,
-                "E2EED04CCCED91FD8170172FD529DAB9E32D65CEF7A50F9FE8545921135A77B4",
-                "http://192.168.254.102:53197/",
-                "http://192.168.254.102:53197/",
+                EnvironmentVariables.SigningKey,
+                EnvironmentVariables.Website,
+                EnvironmentVariables.Website,
                 TimeSpan.FromDays(7));
 
             return Ok(new

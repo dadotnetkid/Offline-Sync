@@ -25,7 +25,7 @@ namespace Jarcet.Mobile.Views.Navigation
             ListView = MenuItemsListView;
         }
 
-      
+
     }
     public class NavigationBarMasterViewModel : INotifyPropertyChanged
     {
@@ -37,8 +37,7 @@ namespace Jarcet.Mobile.Views.Navigation
             {
                 new NavigationBarMenuItem { Icon="search_icon.png",Id = 0, Title = "Qoutes",TargetType=typeof(Views.Qoute.Qoutes) },
                 new NavigationBarMenuItem { Icon="clients.png",Id = 1, Title = "Clients",TargetType=typeof(Views.Client.Clients) },
-                new NavigationBarMenuItem { Id = 2, Title = "Products" ,TargetType=typeof(Views.Product.Products) },
-                new NavigationBarMenuItem { Id = 3, Title = "Page 4" },
+                new NavigationBarMenuItem { Icon="box.png", Id = 2, Title = "Products" ,TargetType=typeof(Views.Product.Products) },
                 new NavigationBarMenuItem { Id = 4, Title = "Logout" },
             });
         }

@@ -25,11 +25,11 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
-                    <Image Source="logo.png" Aspect="AspectFill" Grid.RowSpan="4" Grid.ColumnSpan="3" />
+                    <Image Source="medtek.png" Aspect="AspectFill" Grid.RowSpan="4" Grid.ColumnSpan="3" />
                     <Label
               Grid.Column="1"
               Grid.Row="2"
-              Text="Qoutation Mobile App"
+              Text="MEDTEK"
               Style="{DynamicResource SubtitleStyle}" />
                 </Grid>
             </ListView.Header>
