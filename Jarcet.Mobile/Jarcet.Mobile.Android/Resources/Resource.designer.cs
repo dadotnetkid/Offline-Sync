@@ -36,6 +36,8 @@ namespace Jarcet.Mobile.Droid
 			global::Xamarin.Auth._MobileServices.Resource.String.title_activity_webview = global::Jarcet.Mobile.Droid.Resource.String.title_activity_webview;
 			global::PCLCrypto.Resource.String.ApplicationName = global::Jarcet.Mobile.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::Jarcet.Mobile.Droid.Resource.String.Hello;
+			global::PCLStorage.Resource.String.ApplicationName = global::Jarcet.Mobile.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::Jarcet.Mobile.Droid.Resource.String.Hello;
 			global::Xamarin.Auth.Resource.Animation.slide_in_right = global::Jarcet.Mobile.Droid.Resource.Animation.slide_in_right;
 			global::Xamarin.Auth.Resource.Animation.slide_out_left = global::Jarcet.Mobile.Droid.Resource.Animation.slide_out_left;
 			global::Xamarin.Auth.Resource.Boolean.abc_action_bar_embed_tabs = global::Jarcet.Mobile.Droid.Resource.Boolean.abc_action_bar_embed_tabs;

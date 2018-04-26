@@ -14,19 +14,25 @@ namespace Jarcet.Mobile.Views.Product
     public partial class Products : ContentPage
     {
         private AzureUnitOfWork unitOfWork = new AzureUnitOfWork();
+        private ProductsViewModel model;
+
         public Products()
         {
             InitializeComponent();
+            model = new ProductsViewModel()
+            {
+                
+            };
+            BindingContext = model;
         }
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            model.IsRefreshing = true;
             await unitOfWork.ProductsRepo.PullAsync(null);
             var res = await unitOfWork.ProductsRepo.GetAsync();
-            BindingContext = new ProductsViewModel()
-            {
-                ProductList = new System.Collections.ObjectModel.ObservableCollection<Models.Products>(res)
-            };
+            model.ProductList = new System.Collections.ObjectModel.ObservableCollection<Models.Products>(res);
+            model.IsRefreshing = false;
         }
     }
 }

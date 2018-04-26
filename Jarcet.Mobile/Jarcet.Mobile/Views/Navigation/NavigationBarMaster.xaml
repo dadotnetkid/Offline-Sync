@@ -25,7 +25,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
-                    <Image Source="medtek.png" Aspect="AspectFill" Grid.RowSpan="4" Grid.ColumnSpan="3" />
+                    <Image Source="medtek.png" Aspect="AspectFit" Grid.RowSpan="4" Grid.ColumnSpan="3" />
                     <Label
               Grid.Column="1"
               Grid.Row="2"

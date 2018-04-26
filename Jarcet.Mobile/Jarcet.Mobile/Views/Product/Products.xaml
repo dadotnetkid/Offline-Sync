@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Entry Placeholder="Search"/>
-            <ListView ItemsSource="{Binding ProductList}">
+            <ListView ItemsSource="{Binding ProductList}" IsRefreshing="{Binding IsRefreshing}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

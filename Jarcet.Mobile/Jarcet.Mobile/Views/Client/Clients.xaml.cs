@@ -15,16 +15,21 @@ namespace Jarcet.Mobile.Views.Client
     public partial class Clients : ContentPage
     {
         private AzureUnitOfWork unitOfWork = new AzureUnitOfWork();
+        private ClientViewModel model = new ClientViewModel();
+
         public Clients()
         {
             InitializeComponent();
+            BindingContext = model;
         }
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            model.IsRefreshing = true;
             await unitOfWork.ClientsRepo.PullAsync(null);
             var res = await unitOfWork.ClientsRepo.GetAsync();
-            BindingContext = new ClientViewModel() { ClientList = new ObservableCollection<Models.Clients>(res) };
+            model.ClientList = new ObservableCollection<Models.Clients>(res);
+            model.IsRefreshing = false;
         }
 
         private async void MenuItemNewClient_Click(object sender, EventArgs e)

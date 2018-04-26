@@ -7,14 +7,27 @@ using Jarcet.Mobile.Annotations;
 
 namespace Jarcet.Mobile.Models
 {
-public    class NotifyPropertyService:INotifyPropertyChanged
+    public class NotifyPropertyService : INotifyPropertyChanged
     {
+        private bool _isRefreshing = true;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        public bool IsRefreshing
+        {
+            get => _isRefreshing; set
+            {
+                _isRefreshing = value;
+                this.OnPropertyChanged();
+            }
+
         }
     }
 }

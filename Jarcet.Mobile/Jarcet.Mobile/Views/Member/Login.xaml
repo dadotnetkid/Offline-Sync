@@ -14,7 +14,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Source="medtek.png" Aspect="AspectFill"/>
+            <Image Source="medtek.png" Aspect="AspectFit"/>
             <StackLayout Grid.Row="1"  Padding="20,0,20,0">
                 <Label Text="Usermame"/>
                 <Entry Text="{Binding Users.UserName}"/>

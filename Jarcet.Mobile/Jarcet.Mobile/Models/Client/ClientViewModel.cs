@@ -40,5 +40,7 @@ namespace Jarcet.Mobile.Models.Client
             }
         }
 
+
+        
     }
 }

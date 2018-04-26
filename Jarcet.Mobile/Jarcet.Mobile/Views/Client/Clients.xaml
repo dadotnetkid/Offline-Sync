@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Entry Placeholder="Search" HorizontalOptions="FillAndExpand"/>
-            <ListView ItemsSource="{Binding ClientList}">
+            <ListView ItemsSource="{Binding ClientList}" IsRefreshing="{Binding IsRefreshing}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
