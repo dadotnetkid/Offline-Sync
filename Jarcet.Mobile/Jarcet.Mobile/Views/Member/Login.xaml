@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:user="clr-namespace:Jarcet.Mobile.Models.User;assembly=Jarcet.Mobile"
+             x:Class="Jarcet.Mobile.Views.Member.Login">
+    <ContentPage.BindingContext>
+        <user:UserViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Source="logo.png" Aspect="AspectFill"/>
+            <StackLayout Grid.Row="1"  Padding="20,0,20,0">
+                <Label Text="Usermame"/>
+                <Entry Text="{Binding Users.UserName}"/>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Padding="20,0,20,0">
+                <Label Text="Password"/>
+                <Entry Text="{Binding Users.Password}" IsPassword="True"/>
+            </StackLayout>
+            <StackLayout Grid.Row="3"  Padding="20,0,20,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Clicked="BtnLogin" Text="Login"/>
+                    <Button  Text="Cancel" Grid.Column="1"/>
+                </Grid>
+
+            </StackLayout>
+        </Grid>
+
+
+    </ContentPage.Content>
+</ContentPage>

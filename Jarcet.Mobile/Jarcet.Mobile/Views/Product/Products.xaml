@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:product="clr-namespace:Jarcet.Mobile.Models.Product;assembly=Jarcet.Mobile"
+             x:Class="Jarcet.Mobile.Views.Product.Products">
+    <ContentPage.BindingContext>
+        <product:ProductsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry Placeholder="Search"/>
+            <ListView ItemsSource="{Binding ProductList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding ProductId}"/>
+                                <Label Text="{Binding ProductName}" Grid.Row="1"/>
+                                <Label Text="{Binding Categories.CategoryName}" Grid.Row="1"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

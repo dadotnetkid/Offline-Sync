@@ -18,13 +18,17 @@ namespace Jarcet.Qoute.Web.Models
         public Categories()
         {
             this.Clients = new HashSet<Clients>();
+            this.Products = new HashSet<Products>();
         }
     
         public string Id { get; set; }
+        public Nullable<int> Type { get; set; }
         public string CategoryName { get; set; }
         public Nullable<decimal> Discount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clients> Clients { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Products> Products { get; set; }
     }
 }

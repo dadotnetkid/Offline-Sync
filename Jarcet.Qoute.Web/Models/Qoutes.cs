@@ -28,7 +28,7 @@ namespace Jarcet.Qoute.Web.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QouteDetails> QouteDetails { get; set; }
-        public virtual Clients Clients { get; set; }
         public virtual Users Users { get; set; }
+        public virtual Clients Clients { get; set; }
     }
 }

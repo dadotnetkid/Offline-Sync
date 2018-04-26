@@ -11,5 +11,6 @@ namespace Jarcet.Qoute.Web.Helpers.NotifierHelper
         Attachment Attachment { get; set; }
         void SendEmail(SmtpClient smtpClient,MailMessage mailMessage);
         void SendSms();
+        void SendEmail();
     }
 }

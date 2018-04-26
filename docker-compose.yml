@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  jarcet.qoute.webapi:
+    image: jarcetqoutewebapi
+    build:
+      context: .\Jarcet.Qoute.WebApi
+      dockerfile: Dockerfile

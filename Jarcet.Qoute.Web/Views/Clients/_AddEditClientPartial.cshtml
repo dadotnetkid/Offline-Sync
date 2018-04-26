@@ -1,0 +1,151 @@
+﻿@model Clients
+<div class="row">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.FirstName).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.FirstName, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.MiddleName).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.MiddleName, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.LastName).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.LastName, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.Gender).GetHtml();
+            Html.DevExpress().ComboBoxFor(m => m.Gender, cbo =>
+            {
+                cbo.Width = Unit.Percentage(100);
+                cbo.Properties.ValueField = "Id";
+                cbo.Properties.TextField = "Name";
+            }).BindList(Enum.GetValues(typeof(Gender)).Cast<Gender>().Select(m => new { Id = m, Name = m.ToString() })).GetHtml();
+        }
+    </div>
+
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.CivilStatus).GetHtml();
+            Html.DevExpress().ComboBoxFor(m => m.CivilStatus, cbo =>
+            {
+                cbo.Width = Unit.Percentage(100);
+                cbo.Properties.ValueField = "Id";
+                cbo.Properties.TextField = "Name";
+            }).BindList(Enum.GetValues(typeof(CivilStatus)).Cast<CivilStatus>().Select(m => new { Id = m, Name = m.ToString() })).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.BirthDate).GetHtml();
+            Html.DevExpress().DateEditFor(m => m.BirthDate, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.AddressLine1).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.AddressLine1, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.AddressLine2).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.AddressLine2, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.CategoryId, lbl => { lbl.Text = "Category"; }).GetHtml();
+            Html.DevExpress().ComboBoxFor(m => m.CategoryId, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+                txt.Properties.TextField = "CategoryName";
+                txt.Properties.ValueField = "Id";
+            }).BindList(new UnitOfWork().CategoriesRepo.Get(m => m.Type == (int)TableType.Clients)).GetHtml();
+        }
+    </div>
+
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnUpdate";
+                btn.Text = "Update";
+                btn.Style.Add(HtmlTextWriterStyle.MarginRight, "10px");
+                btn.ClientSideEvents.Click = "function(s,e){ClientsGridView.UpdateEdit()}";
+            }).GetHtml();
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnCancel";
+                btn.Text = "Cancel";
+                btn.Style.Add(HtmlTextWriterStyle.MarginRight, "10px");
+                btn.ClientSideEvents.Click = "function(s,e){ClientsGridView.CancelEdit()}";
+            }).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+
+        }
+    </div>
+</div>
+@*<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnUpdate";
+                btn.Text = "Update";
+                btn.Style.Add(HtmlTextWriterStyle.MarginRight, "10px");
+                btn.ClientSideEvents.Click = "function(s,e){ClientsGridView.UpdateEdit()}";
+            }).GetHtml();
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnCancel";
+                btn.Text = "Cancel";
+                btn.Style.Add(HtmlTextWriterStyle.MarginRight, "10px");
+                btn.ClientSideEvents.Click = "function(s,e){ClientsGridView.CancelEdit()}";
+            }).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+
+        }
+    </div>
+</div>*@

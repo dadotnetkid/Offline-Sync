@@ -10,6 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Type" Type="int" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="255" />
           <Property Name="Discount" Type="money" />
         </EntityType>
@@ -19,7 +20,14 @@
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryId" Type="nvarchar" MaxLength="255" />
-          <Property Name="ClientName" Type="nvarchar" MaxLength="255" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="255" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="255" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Gender" Type="smallint" />
+          <Property Name="BirthDate" Type="datetime2" Precision="7" />
+          <Property Name="CivilStatus" Type="smallint" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="255" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -27,6 +35,7 @@
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ProductId" Type="nvarchar" MaxLength="255" />
+          <Property Name="CategoryId" Type="nvarchar" MaxLength="255" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="255" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
           <Property Name="Cost" Type="money" />
@@ -128,6 +137,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Clients">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
               <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
@@ -253,6 +274,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Clients" EntitySet="Clients" />
           </AssociationSet>
+          <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
           <AssociationSet Name="FK_QouteDetails_Products" Association="Self.FK_QouteDetails_Products">
             <End Role="Products" EntitySet="Products" />
             <End Role="QouteDetails" EntitySet="QouteDetails" />
@@ -297,16 +322,6 @@
             <End Role="Qoutes" EntitySet="Qoutes" />
             <End Role="QouteDetails" EntitySet="QouteDetails" />
           </AssociationSet>
-          <EntitySet Name="Categories" EntityType="QoutesModel.Categories" />
-          <EntitySet Name="Clients" EntityType="QoutesModel.Clients" />
-          <AssociationSet Name="FK_Clients_Categories" Association="QoutesModel.FK_Clients_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Clients" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Qoutes_Clients" Association="QoutesModel.FK_Qoutes_Clients">
-            <End Role="Clients" EntitySet="Clients" />
-            <End Role="Qoutes" EntitySet="Qoutes" />
-          </AssociationSet>
           <EntitySet Name="Products" EntityType="QoutesModel.Products" />
           <AssociationSet Name="FK_QouteDetails_Products" Association="QoutesModel.FK_QouteDetails_Products">
             <End Role="Products" EntitySet="Products" />
@@ -332,6 +347,20 @@
             <End Role="UserRoles" EntitySet="UserRoles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Clients" EntityType="QoutesModel.Clients" />
+          <AssociationSet Name="FK_Qoutes_Clients" Association="QoutesModel.FK_Qoutes_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Qoutes" EntitySet="Qoutes" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="QoutesModel.Categories" />
+          <AssociationSet Name="FK_Clients_Categories" Association="QoutesModel.FK_Clients_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Categories" Association="QoutesModel.FK_Products_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="QouteDetails">
           <Key>
@@ -353,9 +382,9 @@
           <Property Name="Subject" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="QouteDetails" Relationship="QoutesModel.FK_QouteDetails_Qoutes" FromRole="Qoutes" ToRole="QouteDetails" />
           <Property Name="DateRequested" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Clients" Relationship="QoutesModel.FK_Qoutes_Clients" FromRole="Qoutes" ToRole="Clients" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="QoutesModel.FK_Qoutes_Users" FromRole="Qoutes" ToRole="Users" />
+          <NavigationProperty Name="Clients" Relationship="QoutesModel.FK_Qoutes_Clients" FromRole="Qoutes" ToRole="Clients" />
         </EntityType>
         <Association Name="FK_QouteDetails_Qoutes">
           <End Type="QoutesModel.Qoutes" Role="Qoutes" Multiplicity="0..1" />
@@ -369,49 +398,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Categories">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Discount" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Clients" Relationship="QoutesModel.FK_Clients_Categories" FromRole="Categories" ToRole="Clients" />
-        </EntityType>
-        <EntityType Name="Clients">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ClientName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Categories" Relationship="QoutesModel.FK_Clients_Categories" FromRole="Clients" ToRole="Categories" />
-          <NavigationProperty Name="Qoutes" Relationship="QoutesModel.FK_Qoutes_Clients" FromRole="Clients" ToRole="Qoutes" />
-        </EntityType>
-        <Association Name="FK_Clients_Categories">
-          <End Type="QoutesModel.Categories" Role="Categories" Multiplicity="0..1" />
-          <End Type="QoutesModel.Clients" Role="Clients" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Clients">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Qoutes_Clients">
-          <End Type="QoutesModel.Clients" Role="Clients" Multiplicity="0..1" />
-          <End Type="QoutesModel.Qoutes" Role="Qoutes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clients">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Qoutes">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="Id" />
@@ -422,6 +408,8 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="QouteDetails" Relationship="QoutesModel.FK_QouteDetails_Products" FromRole="Products" ToRole="QouteDetails" />
           <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CategoryId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Categories" Relationship="QoutesModel.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
         </EntityType>
         <Association Name="FK_QouteDetails_Products">
           <End Type="QoutesModel.Products" Role="Products" Multiplicity="0..1" />
@@ -548,6 +536,70 @@
           <End Type="QoutesModel.UserRoles" Role="UserRoles" Multiplicity="*" />
           <End Type="QoutesModel.Users" Role="Users" Multiplicity="*" />
         </Association>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Int16" />
+          <Property Name="BirthDate" Type="DateTime" Precision="7" />
+          <Property Name="CivilStatus" Type="Int16" />
+          <Property Name="AddressLine1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Qoutes" Relationship="QoutesModel.FK_Qoutes_Clients" FromRole="Clients" ToRole="Qoutes" />
+          <NavigationProperty Name="Categories" Relationship="QoutesModel.FK_Clients_Categories" FromRole="Clients" ToRole="Categories" />
+        </EntityType>
+        <Association Name="FK_Qoutes_Clients">
+          <End Type="QoutesModel.Clients" Role="Clients" Multiplicity="0..1" />
+          <End Type="QoutesModel.Qoutes" Role="Qoutes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Qoutes">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Clients" Relationship="QoutesModel.FK_Clients_Categories" FromRole="Categories" ToRole="Clients" />
+          <NavigationProperty Name="Products" Relationship="QoutesModel.FK_Products_Categories" FromRole="Categories" ToRole="Products" />
+        </EntityType>
+        <Association Name="FK_Clients_Categories">
+          <End Type="QoutesModel.Categories" Role="Categories" Multiplicity="0..1" />
+          <End Type="QoutesModel.Clients" Role="Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Categories">
+          <End Type="QoutesModel.Categories" Role="Categories" Multiplicity="0..1" />
+          <End Type="QoutesModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -575,27 +627,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="QoutesModel.Categories">
-              <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="QoutesModel.Clients">
-              <MappingFragment StoreEntitySet="Clients">
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="QoutesModel.Products">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
@@ -676,6 +711,32 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="QoutesModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="CivilStatus" ColumnName="CivilStatus" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="QoutesModel.Categories">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

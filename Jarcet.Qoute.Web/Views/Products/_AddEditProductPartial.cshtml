@@ -1,0 +1,92 @@
+﻿@model Products
+<div class="row">
+
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.CategoryId, lbl =>
+            {
+                lbl.Text = "Category";
+            }).GetHtml();
+            Html.DevExpress().ComboBoxFor(m => m.CategoryId, cbo =>
+            {
+                cbo.Properties.TextField = "CategoryName";
+                cbo.Properties.ValueField = "Id";
+                cbo.Width = Unit.Percentage(100);
+            }).BindList(new UnitOfWork().CategoriesRepo.Get(m => m.Type == (int)TableType.Products)).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.ProductName, lbl =>
+            {
+                lbl.Text = "Product Name";
+            }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.ProductName, txt =>
+            {
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.Description, lbl =>
+            {
+                lbl.Text = "Description";
+            }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.Description, txt =>
+            {
+
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+    <div class="col-lg-6">
+        @{
+            Html.DevExpress().LabelFor(m => m.Cost, lbl =>
+            {
+                lbl.Text = "Cost";
+            }).GetHtml();
+            Html.DevExpress().TextBoxFor(m => m.Cost, txt =>
+            {
+
+                txt.Width = Unit.Percentage(100);
+            }).GetHtml();
+        }
+    </div>
+
+    @*<div class="col-lg-6">
+            @{
+                Html.DevExpress().LabelFor(m => m.ProductName, lbl =>
+                {
+                    lbl.Text = "Product Name";
+                }).GetHtml();
+                Html.DevExpress().TextBoxFor(m => m.ProductName, txt =>
+                {
+                    txt.Width = Unit.Percentage(100);
+                }).GetHtml();
+            }
+        </div>*@
+</div>
+
+<div class="margin-top-10 row">
+    <div class="col-lg-12">
+        @{
+        Html.DevExpress().Button(btn =>
+        {
+            btn.Name = "btnUpdate";
+            btn.Text = "Update";
+            btn.Style.Add(HtmlTextWriterStyle.MarginRight, "10px");
+            btn.ClientSideEvents.Click = "function(s,e){ProductsGridView.UpdateEdit()}";
+        }).GetHtml();
+        Html.DevExpress().Button(btn =>
+        {
+            btn.Name = "btnCancel";
+            btn.Text = "Cancel";
+            btn.Style.Add(HtmlTextWriterStyle.MarginRight, "10px");
+            btn.ClientSideEvents.Click = "function(s,e){ProductsGridView.CancelEdit()}";
+        }).GetHtml();
+        }
+    </div>
+</div>

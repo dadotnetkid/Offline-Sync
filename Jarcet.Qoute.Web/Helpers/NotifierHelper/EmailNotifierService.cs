@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,13 +20,15 @@ namespace Jarcet.Qoute.Web.Helpers.NotifierHelper
         {
             this.messageModel = messageModel;
             this.smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = new NetworkCredential("markchristopher.cacal@gmail.com", "sldd140124");
         }
-       
+
         public void Send()
         {
             mailMessage = new MailMessage(this.messageModel.From, messageModel.To, messageModel.Subject, messageModel.Body);
-           
-            messageModel.SendEmail(smtpClient,mailMessage);
+
+            messageModel.SendEmail(smtpClient, mailMessage);
         }
     }
 }

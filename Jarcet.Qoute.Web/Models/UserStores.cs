@@ -21,7 +21,7 @@ namespace Jarcet.Qoute.Web.Models
         public UserStores(QoutesEntities db)
         {
             this.db = db;
-        
+
         }
         public IQueryable<Users> Users => db.Users;
 
@@ -90,6 +90,7 @@ namespace Jarcet.Qoute.Web.Models
 
         public Task CreateAsync(Users user)
         {
+            user.Id = Guid.NewGuid().ToString();
             this.db.Users.Add(user);
             return this.db.SaveChangesAsync();
         }
@@ -162,7 +163,7 @@ namespace Jarcet.Qoute.Web.Models
                 throw new ArgumentNullException("user");
             }
 
-            return Task.FromResult(user.AccessFailedCount??0);
+            return Task.FromResult(user.AccessFailedCount ?? 0);
         }
 
         public Task<IList<Claim>> GetClaimsAsync(Users user)
@@ -192,7 +193,7 @@ namespace Jarcet.Qoute.Web.Models
                 throw new ArgumentNullException("user");
             }
 
-            return Task.FromResult(user.EmailConfirmed??false );
+            return Task.FromResult(user.EmailConfirmed ?? false);
         }
 
         public Task<bool> GetLockoutEnabledAsync(Users user)
@@ -202,7 +203,7 @@ namespace Jarcet.Qoute.Web.Models
                 throw new ArgumentNullException("user");
             }
 
-            return Task.FromResult(user.LockoutEnabled??false);
+            return Task.FromResult(user.LockoutEnabled ?? false);
         }
 
         public Task<DateTimeOffset> GetLockoutEndDateAsync(Users user)
@@ -255,7 +256,7 @@ namespace Jarcet.Qoute.Web.Models
                 throw new ArgumentNullException("user");
             }
 
-            return Task.FromResult(user.PhoneNumberConfirmed??true);
+            return Task.FromResult(user.PhoneNumberConfirmed ?? true);
         }
 
         public Task<IList<string>> GetRolesAsync(Users user)
@@ -285,7 +286,7 @@ namespace Jarcet.Qoute.Web.Models
                 throw new ArgumentNullException("user");
             }
 
-            return Task.FromResult(user.TwoFactorEnabled??false);
+            return Task.FromResult(user.TwoFactorEnabled ?? false);
         }
 
         public Task<bool> HasPasswordAsync(Users user)
@@ -301,7 +302,7 @@ namespace Jarcet.Qoute.Web.Models
             }
 
             user.AccessFailedCount++;
-            return Task.FromResult(user.AccessFailedCount??0);
+            return Task.FromResult(user.AccessFailedCount ?? 0);
         }
 
         public Task<bool> IsInRoleAsync(Users user, string roleName)
@@ -313,7 +314,7 @@ namespace Jarcet.Qoute.Web.Models
 
             if (string.IsNullOrWhiteSpace(roleName))
             {
-               // throw new ArgumentException(Resources.ValueCannotBeNullOrEmpty, "roleName");
+                // throw new ArgumentException(Resources.ValueCannotBeNullOrEmpty, "roleName");
             }
 
             return
@@ -509,6 +510,6 @@ namespace Jarcet.Qoute.Web.Models
             return this.db.SaveChangesAsync();
         }
 
-       
+
     }
 }

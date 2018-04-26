@@ -1,0 +1,36 @@
+﻿
+<aside class="main-sidebar">
+    <section class="sidebar">
+
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+
+            @*<li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower() == "index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+            <a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> <span>Dash Board</span></a>
+        </li>
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString().ToLower()=="index" && ViewContext.RouteData.Values["Controller"].ToString() == "Exam" ? "active" : "")">
+            <a href="@Url.Action("profile", "member")"><i class="fa fa-user-o"></i> <span>Profile</span></a>
+        </li>*@
+
+            <li class="">
+                <a href="@Url.Action("index", "Qoutes")"><i class="fa fa-user-o"></i> <span>Qoutes</span></a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("index", "Clients")"><i class="fa fa-user-o"></i> <span>Clients</span></a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("index", "Products")"><i class="fa fa-user-o"></i> <span>Products</span></a>
+            </li>
+        </ul>
+    </section>
+</aside>

@@ -1,0 +1,58 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Width = Unit.Percentage(100);
+
+        settings.Name = "ClientsGridView";
+        settings.CallbackRouteValues = new { Controller = "Clients", Action = "ClientsGridViewPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Clients", Action = "ClientsGridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Clients", Action = "ClientsGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Clients", Action = "ClientsGridViewPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "Id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add("ClientName");
+        settings.Columns.Add("BirthDate");
+        settings.Columns.Add(col=> {
+            col.FieldName = "CivilStatus";
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var cbo = col.PropertiesEdit as ComboBoxProperties;
+            cbo.ValueType = typeof(CivilStatus);
+            cbo.TextField = "Name";
+            cbo.ValueField = "Id";
+            cbo.DataSource = Enum.GetValues(typeof(CivilStatus)).Cast<CivilStatus>().Select(m => new { Id = m, Name = m.ToString() });
+        });
+        settings.Columns.Add("AddressLine1");
+        settings.Columns.Add("AddressLine2");
+        settings.Columns.Add("Categories.CategoryName");
+        settings.Columns.Add("Categories.Discount").PropertiesEdit.DisplayFormatString = "N2";
+        settings.SetEditFormTemplateContent(col =>
+        {
+            Html.RenderAction("AddEditClientPartial", new { ClientId = col.KeyValue });
+        });
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

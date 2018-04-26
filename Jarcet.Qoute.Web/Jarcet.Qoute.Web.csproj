@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -26,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,6 +69,12 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -209,8 +217,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\QoutesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -227,11 +237,13 @@
     <Compile Include="Models\Categories.cs">
       <DependentUpon>QouteDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientPartial.cs" />
     <Compile Include="Models\Clients.cs">
       <DependentUpon>QouteDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Helpers\NotifierHelper\QouteNotifierService.cs" />
+    <Compile Include="Models\ProductPartial.cs" />
     <Compile Include="Models\Products.cs">
       <DependentUpon>QouteDb.tt</DependentUpon>
     </Compile>
@@ -265,6 +277,7 @@
     <Compile Include="Models\UserLogins.cs">
       <DependentUpon>QouteDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EnumModels.cs" />
     <Compile Include="Models\UserRoles.cs">
       <DependentUpon>QouteDb.tt</DependentUpon>
     </Compile>
@@ -283,12 +296,105 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\AdminLTE.css" />
+    <Content Include="Content\css\AdminLTE.min.css" />
+    <Content Include="Content\css\alt\AdminLTE-bootstrap-social.css" />
+    <Content Include="Content\css\alt\AdminLTE-bootstrap-social.min.css" />
+    <Content Include="Content\css\alt\AdminLTE-fullcalendar.css" />
+    <Content Include="Content\css\alt\AdminLTE-fullcalendar.min.css" />
+    <Content Include="Content\css\alt\AdminLTE-select2.css" />
+    <Content Include="Content\css\alt\AdminLTE-select2.min.css" />
+    <Content Include="Content\css\alt\AdminLTE-without-plugins.css" />
+    <Content Include="Content\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Content\css\boostrap4\bootstrap-grid.css" />
+    <Content Include="Content\css\boostrap4\bootstrap-grid.min.css" />
+    <Content Include="Content\css\boostrap4\bootstrap-reboot.css" />
+    <Content Include="Content\css\boostrap4\bootstrap-reboot.min.css" />
+    <Content Include="Content\css\boostrap4\bootstrap.css" />
+    <Content Include="Content\css\boostrap4\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\Site.css" />
+    <Content Include="Content\fontello.css" />
+    <Content Include="Content\css\skins\skin-black-light.css" />
+    <Content Include="Content\css\skins\skin-black-light.min.css" />
+    <Content Include="Content\css\skins\skin-black.css" />
+    <Content Include="Content\css\skins\skin-black.min.css" />
+    <Content Include="Content\css\skins\skin-blue-light.css" />
+    <Content Include="Content\css\skins\skin-blue-light.min.css" />
+    <Content Include="Content\css\skins\skin-blue.css" />
+    <Content Include="Content\css\skins\skin-blue.min.css" />
+    <Content Include="Content\css\skins\skin-green-light.css" />
+    <Content Include="Content\css\skins\skin-green-light.min.css" />
+    <Content Include="Content\css\skins\skin-green.css" />
+    <Content Include="Content\css\skins\skin-green.min.css" />
+    <Content Include="Content\css\skins\skin-purple-light.css" />
+    <Content Include="Content\css\skins\skin-purple-light.min.css" />
+    <Content Include="Content\css\skins\skin-purple.css" />
+    <Content Include="Content\css\skins\skin-purple.min.css" />
+    <Content Include="Content\css\skins\skin-red-light.css" />
+    <Content Include="Content\css\skins\skin-red-light.min.css" />
+    <Content Include="Content\css\skins\skin-red.css" />
+    <Content Include="Content\css\skins\skin-red.min.css" />
+    <Content Include="Content\css\skins\skin-yellow-light.css" />
+    <Content Include="Content\css\skins\skin-yellow-light.min.css" />
+    <Content Include="Content\css\skins\skin-yellow.css" />
+    <Content Include="Content\css\skins\skin-yellow.min.css" />
+    <Content Include="Content\css\skins\_all-skins.css" />
+    <Content Include="Content\css\skins\_all-skins.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\js\adminlte.js" />
+    <Content Include="Content\js\adminlte.min.js" />
+    <Content Include="Content\js\custom-js.js" />
+    <Content Include="Content\js\init.js" />
+    <None Include="Content\js\jquery-3.2.1.intellisense.js" />
+    <Content Include="Content\js\jquery-3.2.1.js" />
+    <Content Include="Content\js\jquery-3.2.1.min.js" />
+    <Content Include="Content\js\jquery-3.2.1.slim.js" />
+    <Content Include="Content\js\jquery-3.2.1.slim.min.js" />
+    <Content Include="Content\js\jquery331\bootstrap.bundle.js" />
+    <Content Include="Content\js\jquery331\bootstrap.bundle.min.js" />
+    <Content Include="Content\js\jquery331\bootstrap.js" />
+    <Content Include="Content\js\jquery331\bootstrap.min.js" />
+    <Content Include="Content\js\jquery331\esm\popper-utils.js" />
+    <Content Include="Content\js\jquery331\esm\popper-utils.min.js" />
+    <Content Include="Content\js\jquery331\esm\popper.js" />
+    <Content Include="Content\js\jquery331\esm\popper.min.js" />
+    <None Include="Content\js\jquery331\jquery-3.3.1.intellisense.js" />
+    <Content Include="Content\js\jquery331\jquery-3.3.1.js" />
+    <Content Include="Content\js\jquery331\jquery-3.3.1.min.js" />
+    <Content Include="Content\js\jquery331\jquery-3.3.1.slim.js" />
+    <Content Include="Content\js\jquery331\jquery-3.3.1.slim.min.js" />
+    <None Include="Content\js\jquery331\jquery.validate-vsdoc.js" />
+    <Content Include="Content\js\jquery331\jquery.validate.js" />
+    <Content Include="Content\js\jquery331\jquery.validate.min.js" />
+    <Content Include="Content\js\jquery331\popper-utils.js" />
+    <Content Include="Content\js\jquery331\popper-utils.min.js" />
+    <Content Include="Content\js\jquery331\popper.js" />
+    <Content Include="Content\js\jquery331\popper.min.js" />
+    <Content Include="Content\js\jquery331\umd\popper-utils.js" />
+    <Content Include="Content\js\jquery331\umd\popper-utils.min.js" />
+    <Content Include="Content\js\jquery331\umd\popper.js" />
+    <Content Include="Content\js\jquery331\umd\popper.min.js" />
+    <Content Include="Content\js\modernizr-2.8.3.js" />
+    <Content Include="Content\js\pages\dashboard.js" />
+    <Content Include="Content\js\pages\dashboard2.js" />
+    <Content Include="Content\js\plugins\fastclick.js" />
+    <Content Include="Content\js\plugins\jquery.slimscroll.js" />
+    <Content Include="Content\js\plugins\jquery.slimscroll.min.js" />
+    <Content Include="Content\js\respond.matchmedia.addListener.js" />
+    <Content Include="Content\js\respond.matchmedia.addListener.min.js" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontello.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Models\QouteDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>QouteDb.edmx</DependentUpon>
@@ -299,8 +405,8 @@
       <DependentUpon>QouteDb.edmx</DependentUpon>
       <LastGenOutput>QouteDb.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -311,17 +417,39 @@
     <Content Include="Models\QouteDb.edmx.diagram">
       <DependentUpon>QouteDb.edmx</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Content\css\adminlte.css.map" />
+    <Content Include="Content\css\adminlte.min.css.map" />
+    <Content Include="Content\css\boostrap4\bootstrap-grid.css.map" />
+    <Content Include="Content\css\boostrap4\bootstrap-grid.min.css.map" />
+    <Content Include="Content\css\boostrap4\bootstrap-reboot.css.map" />
+    <Content Include="Content\css\boostrap4\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\css\boostrap4\bootstrap.css.map" />
+    <Content Include="Content\css\boostrap4\bootstrap.min.css.map" />
+    <Content Include="Content\css\bootstrap-theme.css.map" />
+    <Content Include="Content\css\bootstrap-theme.min.css.map" />
+    <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\css\bootstrap.min.css.map" />
+    <Content Include="Content\css\font-awesome.css.map" />
+    <None Include="Content\js\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\js\jquery-1.10.2.js" />
+    <Content Include="Content\js\jquery-1.10.2.min.js" />
+    <Content Include="Content\js\jquery-3.2.1.min.map" />
+    <Content Include="Content\js\jquery-3.2.1.slim.min.map" />
+    <None Include="Content\js\jquery.validate-vsdoc.js" />
+    <Content Include="Content\js\jquery.validate.js" />
+    <Content Include="Content\js\jquery.validate.min.js" />
+    <Content Include="Content\js\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\js\modernizr-2.6.2.js" />
+    <Content Include="Content\js\respond.js" />
+    <Content Include="Content\js\respond.min.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -363,9 +491,20 @@
     <Content Include="Views\Qoutes\_ProductDetailPartial.cshtml" />
     <Content Include="Views\Qoutes\_QoutesGridViewPartial.cshtml" />
     <Content Include="Views\Qoutes\_AddEditQoutesPartial.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Clients\Index.cshtml" />
+    <Content Include="Views\Clients\_ClientsGridViewPartial.cshtml" />
+    <Content Include="Views\Clients\_AddEditClientPartial.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Products\_ProductsGridViewPartial.cshtml" />
+    <Content Include="Views\Products\_AddEditProductPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\js\fastclick\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -377,10 +516,39 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\js\jquery331\bootstrap.bundle.js.map" />
+    <Content Include="Content\js\jquery331\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\js\jquery331\bootstrap.js.map" />
+    <Content Include="Content\js\jquery331\bootstrap.min.js.map" />
+    <Content Include="Content\js\jquery331\esm\popper-utils.js.map" />
+    <Content Include="Content\js\jquery331\esm\popper-utils.min.js.map" />
+    <Content Include="Content\js\jquery331\esm\popper.js.map" />
+    <Content Include="Content\js\jquery331\esm\popper.min.js.map" />
+    <Content Include="Content\js\jquery331\jquery-3.3.1.min.map" />
+    <Content Include="Content\js\jquery331\jquery-3.3.1.slim.min.map" />
+    <Content Include="Content\js\jquery331\popper-utils.js.map" />
+    <Content Include="Content\js\jquery331\popper-utils.min.js.map" />
+    <Content Include="Content\js\jquery331\popper.js.map" />
+    <Content Include="Content\js\jquery331\popper.min.js.map" />
+    <Content Include="Content\js\jquery331\README.md" />
+    <Content Include="Content\js\jquery331\umd\popper-utils.js.map" />
+    <Content Include="Content\js\jquery331\umd\popper-utils.min.js.map" />
+    <Content Include="Content\js\jquery331\umd\popper.js.map" />
+    <Content Include="Content\js\jquery331\umd\popper.min.js.map" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontello.eot" />
+    <Content Include="fonts\fontello.ttf" />
+    <Content Include="fonts\fontello.woff" />
+    <Content Include="fonts\fontello.woff2" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Content\js\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -389,11 +557,15 @@
       <DependentUpon>QouteReports.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\js\jquery331\index.d.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

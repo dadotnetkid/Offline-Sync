@@ -60,6 +60,18 @@ namespace Jarcet.Qoute.Web.Repository
             }
             set { productsRepo = value; }
         }
+
+        private GenericRepository<Categories> categoryRepo;
+        public GenericRepository<Categories> CategoriesRepo
+        {
+            get
+            {
+                if (this.categoryRepo == null)
+                    this.categoryRepo = new GenericRepository<Categories>(context);
+                return categoryRepo;
+            }
+            set { categoryRepo = value; }
+        }
         public void Save()
         {
             context.SaveChanges();

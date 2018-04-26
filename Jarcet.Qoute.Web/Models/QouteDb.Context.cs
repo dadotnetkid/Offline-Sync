@@ -27,12 +27,12 @@ namespace Jarcet.Qoute.Web.Models
     
         public virtual DbSet<QouteDetails> QouteDetails { get; set; }
         public virtual DbSet<Qoutes> Qoutes { get; set; }
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Clients> Clients { get; set; }
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<UserClaims> UserClaims { get; set; }
         public virtual DbSet<UserLogins> UserLogins { get; set; }
         public virtual DbSet<UserRoles> UserRoles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Clients> Clients { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
     }
 }

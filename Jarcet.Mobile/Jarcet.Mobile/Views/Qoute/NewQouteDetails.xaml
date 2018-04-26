@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:qoute="clr-namespace:Jarcet.Mobile.Models.Qoute;assembly=Jarcet.Mobile"
+             x:Class="Jarcet.Mobile.Views.Qoute.NewQouteDetails">
+    <ContentPage.BindingContext>
+        <qoute:QoutesViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ok" Icon="ok.png" Clicked="btnSubmitQoutedetails"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="300"/>
+            </Grid.RowDefinitions>
+            <StackLayout>
+                <Label Text="Product Name" FontSize="20"/>
+                <Picker ItemsSource="{Binding ProductList}" ItemDisplayBinding="{Binding ProductName}" SelectedIndexChanged="PickerOnProductSelected"></Picker>
+            </StackLayout>
+            <StackLayout Grid.Row="1">
+                <Label Text="Cost"/>
+                <Label Text="{Binding Products.Cost}" FontSize="20" FontAttributes="Bold"/>
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+                <Label Text="Quantity" FontSize="20"/>
+                <Entry  Text="{Binding Qty}" Keyboard="Numeric"/>
+            </StackLayout>
+        
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

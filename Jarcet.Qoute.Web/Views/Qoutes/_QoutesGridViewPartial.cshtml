@@ -9,13 +9,13 @@
 
         settings.CallbackRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartial" };
 
-        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialAddNew" ,Id=ViewBag.QouteId};
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialAddNew", Id = ViewBag.QouteId };
         settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialUpdate", Id = ViewBag.QouteId };
         settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Qoutes", Action = "QoutesGridViewPartialDelete", Id = ViewBag.QouteId };
         settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
         settings.SettingsBehavior.ConfirmDelete = true;
 
-        settings.CommandColumn.Visible = true ;
+        settings.CommandColumn.Visible = true;
         settings.CommandColumn.ShowNewButtonInHeader = true;
         settings.CommandColumn.ShowDeleteButton = true;
         settings.CommandColumn.ShowEditButton = true;
@@ -33,17 +33,21 @@
         settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
         settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
         settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.Columns.Add("Subject");
         settings.Columns.Add("Clients.ClientName");
+        settings.Columns.Add("DateRequested");
 
         settings.InitNewRow = (s, e) =>
         {
-
         };
-        // settings.ClientSideEvents.Init = "function(s,e){ s.AddNewRow();}";
+        settings.AfterPerformCallback = (s, e) => {
+            var gridsetting = s as GridViewSettings;
+            
+        };
         settings.SetEditFormTemplateContent(col =>
         {
-    
-            Html.RenderAction("AddEditQoutesPartial", new { QouteId = DataBinder.Eval(col.DataItem,"Id") });
+
+            Html.RenderAction("AddEditQoutesPartial", new { QouteId = DataBinder.Eval(col.DataItem, "Id") });
 
         });
     });

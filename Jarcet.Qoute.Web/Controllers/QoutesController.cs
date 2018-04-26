@@ -51,10 +51,9 @@ namespace Jarcet.Qoute.Web.Controllers
                     unitOfWork.QoutesRepo.Insert(item);
                     unitOfWork.Save();
 
-
-                    /*  QouteNotifierService qouteNotifierService = new QouteNotifierService(item);
-                      INotifierService notifier = new EmailNotifierService(qouteNotifierService);
-                      notifier.Send();*/
+                    QouteNotifierService qouteNotifierService = new QouteNotifierService(unitOfWork.QoutesRepo.Get(m => m.Id == item.Id, includeProperties: "Clients,QouteDetails,Users,QouteDetails.Products"), item.Subject, item.Subject, User.Identity.GetEmail());
+                    INotifierService notifier = new EmailNotifierService(qouteNotifierService);
+                    notifier.Send();
                 }
                 catch (Exception e)
                 {
@@ -75,6 +74,11 @@ namespace Jarcet.Qoute.Web.Controllers
                 try
                 {
                     // Insert here a code to update the item in your model
+                    unitOfWork.QoutesRepo.Update(item);
+                    unitOfWork.Save();
+                    QouteNotifierService qouteNotifierService = new QouteNotifierService(unitOfWork.QoutesRepo.Get(m => m.Id == item.Id, includeProperties: "Clients,QouteDetails,Users,QouteDetails.Products"), item.Subject, item.Subject, User.Identity.GetEmail());
+                    INotifierService notifier = new EmailNotifierService(qouteNotifierService);
+                    notifier.Send();
                 }
                 catch (Exception e)
                 {
@@ -112,23 +116,16 @@ namespace Jarcet.Qoute.Web.Controllers
         #endregion
 
 
-
         #region QouteDetails
         [ValidateInput(false)]
         public ActionResult QouteDetailsGridViewPartial(string QouteId, bool? isVisibleCommandColumn = false)
         {
-            /* ViewBag.isVisibleCommandColumn = isVisibleCommandColumn;
-             ViewBag.QouteId = QouteId;
-             var model = unitOfWork.QouteDetailsRepo.Get(m => m.QouteId == QouteId, includeProperties: "Products");
-             ViewBag.Total = model.Sum(m => m.Total);*/
             var model = Session["QouteDetails"] as IEnumerable<QouteDetails>;
             if (QouteId != "" && QouteId != null)
             {
                 model = unitOfWork.QouteDetailsRepo.Get(m => m.QouteId == QouteId);
                 isVisibleCommandColumn = true;
             }
-
-
             ViewBag.Total = model.Sum(m => m.Total);
             ViewBag.isVisibleCommandColumn = isVisibleCommandColumn;
             return PartialView("_QouteDetailsGridViewPartial", model);
@@ -137,30 +134,19 @@ namespace Jarcet.Qoute.Web.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult QouteDetailsGridViewPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] QouteDetails item)
         {
-            /* var ClientId = Request.Params["ClientId"];
 
-             ViewBag.isVisibleCommandColumn = Convert.ToBoolean(Request.Params["isVisibleCommandColumn"]);*/
             var model = Session["QouteDetails"] as List<QouteDetails>;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    /* item.Id = Guid.NewGuid().ToString();
-                     item.Qty = item.Qty <= 0 || item.Qty == null ? 1 : item.Qty;
-                     item.Qoutes = unitOfWork.QoutesRepo.Find(m => m.Id == item.QouteId) ?? new Qoutes() { Id = item.QouteId, ClientId = ClientId ,UserId=User.Identity.GetUserId()};
-                     unitOfWork.QouteDetailsRepo.Insert(item);
-                     unitOfWork.Save();
-                        var session = Session["QouteDetails"] as List<QouteDetails>;
-                    session.Add(item);
-                    Session["QouteDetails"] = session;
-                     */
+
                     item.Id = Guid.NewGuid().ToString();
                     item.Qty = item.Qty <= 0 || item.Qty == null ? 1 : item.Qty;
 
 
                     item.Products = unitOfWork.ProductsRepo.Find(m => m.Id == item.ProductId);
                     model.Add(item);
-                    //Session["QouteDetails"] = model;
                 }
                 catch (Exception e)
                 {
@@ -169,9 +155,6 @@ namespace Jarcet.Qoute.Web.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
-
-            /*     var model = unitOfWork.QouteDetailsRepo.Get(m => m.QouteId == item.QouteId, includeProperties: "Products");
-                 ViewBag.Total = model.Sum(m => m.Total);*/
 
             ViewBag.Total = model.Sum(m => m.Total);
             ViewBag.isVisibleCommandColumn = Convert.ToBoolean(Request.Params["isVisibleCommandColumn"]);
@@ -199,20 +182,24 @@ namespace Jarcet.Qoute.Web.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult QouteDetailsGridViewPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] QouteDetails item)
         {
+            var model = Session["QouteDetails"] as List<QouteDetails>;
             if (item != null)
             {
                 try
                 {
-                    unitOfWork.QouteDetailsRepo.Delete(m => m.Id == item.Id);
-                    unitOfWork.Save();
-                    // Insert here a code to delete the item from your model
+                    if (model.Count() > 0)
+                    {
+                        var b = model.Remove(model.Find(m => m.Id == item.Id));
+                        Session["QouteDetails"] = model;
+                    }
+
                 }
                 catch (Exception e)
                 {
                     ViewData["EditError"] = e.Message;
                 }
             }
-            var model = unitOfWork.QouteDetailsRepo.Get(m => m.QouteId == item.QouteId, includeProperties: "Products");
+            //  var model = unitOfWork.QouteDetailsRepo.Get(m => m.QouteId == item.QouteId, includeProperties: "Products");
             ViewBag.Total = model.Sum(m => m.Total);
             ViewBag.isVisibleCommandColumn = Convert.ToBoolean(Request.Params["isVisibleCommandColumn"]);
             return PartialView("_QouteDetailsGridViewPartial", model);

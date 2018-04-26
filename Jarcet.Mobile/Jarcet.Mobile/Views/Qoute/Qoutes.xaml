@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:qoute="clr-namespace:Jarcet.Mobile.Models.Qoute;assembly=Jarcet.Mobile"
+             x:Class="Jarcet.Mobile.Views.Qoute.Qoutes">
+    <ContentPage.BindingContext>
+        <qoute:QoutesViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="AddQoute" Text="New" Icon="add.png" />
+
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Padding="10,10,10,10">
+            <Entry Placeholder="Search" HorizontalOptions="Fill" ></Entry>
+            <ListView ItemsSource="{Binding QouteList}" HasUnevenRows="True" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Clicked="OnDetails" CommandParameter="{Binding .}" Text="Details"/> 
+                            </ViewCell.ContextActions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding Clients.FullName}" Grid.Row="0" HorizontalOptions="FillAndExpand"/>
+                                <Label Text="{Binding Subject}" Grid.Row="1" HorizontalOptions="FillAndExpand"/>
+                                <Label Text="{Binding DateRequested}" Grid.Row="2" HorizontalOptions="FillAndExpand"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
