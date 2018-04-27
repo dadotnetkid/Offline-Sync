@@ -13,6 +13,7 @@ using Microsoft.Owin.Security;
 
 using Jarcet.Qoutes.WebApi.Models;
 using Jarcet.Qoutes.WebApi.Services;
+using Jarcet.Models;
 
 namespace Jarcet.Qoutes.WebApi
 {
@@ -28,7 +29,7 @@ namespace Jarcet.Qoutes.WebApi
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var userStores = new UserStores(context.Get<QouteMobileContext>());
+            var userStores = new Jarcet.Models.Services.UserStores(context.Get<QouteMobileContext>());
             var userManager = new UserManager<Users, string>(userStores);
             var manager = new ApplicationUserManager(userStores);
             // Configure validation logic for usernames

@@ -2,12 +2,13 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Diagnostics;
 using Microsoft.Azure.Mobile.Server.Tables;
 
-namespace Jarcet.Qoutes.WebApi.Models
+namespace Jarcet.Models
 {
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using Jarcet.Models;
 
     public partial class QouteMobileContext : DbContext
     {
@@ -107,4 +108,6 @@ namespace Jarcet.Qoutes.WebApi.Models
 
         
     }
+
+  
 }

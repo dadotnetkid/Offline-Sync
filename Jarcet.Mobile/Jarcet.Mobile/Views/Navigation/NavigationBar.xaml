@@ -4,10 +4,17 @@
              x:Class="Jarcet.Mobile.Views.Navigation.NavigationBar"
              xmlns:pages="clr-namespace:Jarcet.Mobile.Views.Navigation"
              xmlns:qoute="clr-namespace:Jarcet.Mobile.Views.Qoute;assembly=Jarcet.Mobile"
+                  MasterBehavior="Popover"
              >
+   
 
     <MasterDetailPage.Master>
+        
+        
         <pages:NavigationBarMaster x:Name="MasterPage" />
+        
+
+
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail >
         <NavigationPage >

@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using Jarcet.Qoutes.WebApi.Models;
 using Jarcet.Qoutes.WebApi.Services;
+using Jarcet.Models;
 
 namespace Jarcet.Qoutes.WebApi.Controllers
 {

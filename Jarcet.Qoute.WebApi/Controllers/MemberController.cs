@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Jarcet.Models;
 using Jarcet.Qoutes.WebApi.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Azure.Mobile.Server.Config;

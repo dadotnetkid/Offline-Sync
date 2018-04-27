@@ -250,7 +250,6 @@ namespace Jarcet.Mobile.Services
 
             try
             {
-
                 await this.client.SyncContext.PushAsync();
 
 

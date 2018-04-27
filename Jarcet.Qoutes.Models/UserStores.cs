@@ -6,10 +6,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using Jarcet.Qoutes.WebApi.Models;
 using Microsoft.AspNet.Identity;
 
-namespace Jarcet.Qoutes.WebApi.Services
+namespace Jarcet.Models.Services
 {
     public class UserStores :
        IQueryableUserStore<Users>, IUserPasswordStore<Users>, IUserLoginStore<Users, string>,

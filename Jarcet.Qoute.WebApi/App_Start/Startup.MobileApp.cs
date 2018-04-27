@@ -11,6 +11,7 @@ using Microsoft.Azure.Mobile.Server.Config;
 using Jarcet.Qoutes.WebApi.DataObjects;
 using Jarcet.Qoutes.WebApi.Models;
 using Owin;
+using Jarcet.Models;
 
 namespace Jarcet.Qoutes.WebApi
 {
@@ -24,18 +25,32 @@ namespace Jarcet.Qoutes.WebApi
             config.Services.Add(typeof(IExceptionLogger),
                 new TraceSourceExceptionLogger(new
                     TraceSource("MyTraceSource", SourceLevels.All)));
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            config.MapHttpAttributeRoutes();
+
+
             new MobileAppConfiguration()
                 .UseDefaultConfiguration()
+                .MapApiControllers()
                 .ApplyTo(config);
+
+
             config.Formatters.JsonFormatter.SerializerSettings.DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Include;
             config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Include;
 
-            config.MapHttpAttributeRoutes();
+
+
             // Use Entity Framework Code First to create database tables based on your DbContext
             Database.SetInitializer(new MobileServiceInitializer());
 
             MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
-                        settings.SkipVersionCheck = true;
+            settings.SkipVersionCheck = true;
 
             if (string.IsNullOrEmpty(settings.HostName))
             {
@@ -44,10 +59,10 @@ namespace Jarcet.Qoutes.WebApi
                     // This middleware is intended to be used locally for debugging. By default, HostName will
                     // only have a value when running in an App Service application.
                     SigningKey = EnvironmentVariables.SigningKey,
-                    ValidAudiences = new[] { EnvironmentVariables.Website,"http://192.168.254.102:53197/" },
+                    ValidAudiences = new[] { EnvironmentVariables.Website, "http://192.168.254.102:53197/" },
                     ValidIssuers = new[] { EnvironmentVariables.Website, "http://192.168.254.102:53197/" },
                     TokenHandler = config.GetAppServiceTokenHandler()
-                    
+
                 });
             }
 
@@ -101,7 +116,7 @@ namespace Jarcet.Qoutes.WebApi
         public const string Website = "http://medtek.ml/app-service/";
 #endif
         public const string SigningKey = "E2EED04CCCED91FD8170172FD529DAB9E32D65CEF7A50F9FE8545921135A77B4";
-        
+
     }
 }
 

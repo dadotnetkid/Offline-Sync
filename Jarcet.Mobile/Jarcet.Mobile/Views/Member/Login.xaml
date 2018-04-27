@@ -17,11 +17,11 @@
             <Image Source="medtek.png" Aspect="AspectFit"/>
             <StackLayout Grid.Row="1"  Padding="20,0,20,0">
                 <Label Text="Usermame"/>
-                <Entry Text="{Binding Users.UserName}"/>
+                <Entry Text="{Binding UserName, Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Grid.Row="2" Padding="20,0,20,0">
                 <Label Text="Password"/>
-                <Entry Text="{Binding Users.Password}" IsPassword="True"/>
+                <Entry Text="{Binding Password,Mode=TwoWay}" IsPassword="True"/>
             </StackLayout>
             <StackLayout Grid.Row="3"  Padding="20,0,20,0">
                 <Grid>
@@ -29,7 +29,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Clicked="BtnLogin" Text="Login"/>
+                    <Button Clicked="BtnLogin" Text="Login" IsEnabled="{Binding IsEnable}"/>
                     <Button  Text="Cancel" Grid.Column="1"/>
                 </Grid>
 

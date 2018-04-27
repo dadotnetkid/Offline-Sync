@@ -11,11 +11,12 @@ using System.Data.Entity;
 using System.Diagnostics;
 using Jarcet.Qoutes.WebApi.Services;
 using Microsoft.AspNet.Identity;
+using Jarcet.Models;
 
 namespace Jarcet.Qoutes.WebApi.Controllers
 {
     [Authorize]
-    public class QoutesController : TableController<Models.Qoutes>
+    public class QoutesController : TableController<Jarcet.Models.Qoutes>
     {
         private QouteMobileContext context;
         protected override void Initialize(HttpControllerContext controllerContext)
@@ -23,30 +24,30 @@ namespace Jarcet.Qoutes.WebApi.Controllers
             base.Initialize(controllerContext);
             context = new QouteMobileContext();
             Debug.WriteLine("controllerContext " + controllerContext.Request.Content.ReadAsStringAsync().Result);
-            DomainManager = new EntityDomainManager<Models.Qoutes>(context, Request);
+            DomainManager = new EntityDomainManager<Jarcet.Models.Qoutes>(context, Request);
         }
 
         // GET tables/Qoute
         [ExpandProperty("Clients,Users")]
-        public IQueryable<Models.Qoutes> GetAllQoute()
+        public IQueryable<Jarcet.Models.Qoutes> GetAllQoute()
         {
             return Query();
         }
 
         // GET tables/Qoute/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult<Models.Qoutes> GetQoute(string id)
+        public SingleResult<Jarcet.Models.Qoutes> GetQoute(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/Qoute/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<Models.Qoutes> PatchQoute(string id, Delta<Models.Qoutes> patch)
+        public Task<Jarcet.Models.Qoutes> PatchQoute(string id, Delta<Jarcet.Models.Qoutes> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/Qoute
-        public async Task<IHttpActionResult> PostQoute(Models.Qoutes item)
+        public async Task<IHttpActionResult> PostQoute(Jarcet.Models.Qoutes item)
         {
             try
             {

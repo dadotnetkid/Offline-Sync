@@ -10,6 +10,7 @@ namespace Jarcet.Mobile.Models
     public class NotifyPropertyService : INotifyPropertyChanged
     {
         private bool _isRefreshing = true;
+        private bool _isEnable;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -19,7 +20,12 @@ namespace Jarcet.Mobile.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public bool IsEnable
+        {
+            get => _isEnable;
+            set { _isEnable = value; OnPropertyChanged(); }
 
+        }
         public bool IsRefreshing
         {
             get => _isRefreshing; set

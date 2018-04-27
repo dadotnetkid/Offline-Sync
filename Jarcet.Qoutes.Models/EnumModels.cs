@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Jarcet.Qoutes.Models
+namespace Jarcet.Models
 {
     public enum CivilStatus
     {

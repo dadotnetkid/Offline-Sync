@@ -1,6 +1,6 @@
 using Microsoft.Azure.Mobile.Server;
 
-namespace Jarcet.Qoutes.Models
+namespace Jarcet.Models
 {
     using System;
     using System.Collections.Generic;

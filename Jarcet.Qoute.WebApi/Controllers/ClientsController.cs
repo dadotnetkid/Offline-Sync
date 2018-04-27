@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
-using Jarcet.Qoutes.WebApi.Models;
+using Jarcet.Models;
 
 namespace Jarcet.Qoutes.WebApi.Controllers
 {

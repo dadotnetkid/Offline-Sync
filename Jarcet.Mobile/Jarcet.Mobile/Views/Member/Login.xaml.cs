@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Jarcet.Mobile.Models;
 using Jarcet.Mobile.Models.User;
 using Jarcet.Mobile.Services;
@@ -21,7 +22,7 @@ namespace Jarcet.Mobile.Views.Member
         public Login()
         {
             InitializeComponent();
-            users = new UserViewModel() { Users = new Users() };
+            users = new UserViewModel() { };
             BindingContext = users;
             if (Device.RuntimePlatform == Device.Android)
             {
@@ -31,20 +32,30 @@ namespace Jarcet.Mobile.Views.Member
 
         private async void BtnLogin(object sender, EventArgs e)
         {
-            var res = await MobileServiceUsers.LoginUserAsync(new Users() { UserName = users.Users.UserName, Password = users.Users.Password });
-            if (res)
+            using (IProgressDialog progressDialog =
+                UserDialogs.Instance.Loading("Progress", maskType: MaskType.Gradient))
             {
-                var syncService = new OfflineSyncService(new AzureOfflineSyncService());
-                await syncService.Pull();
-                Application.Current.MainPage = new Navigation.NavigationBar();
+                var res = await MobileServiceUsers.LoginUserAsync(new Users() { UserName = users.UserName, Password = users.Password });
+                if (res)
+                {
+                    var syncService = new OfflineSyncService(new AzureOfflineSyncService());
+                    await syncService.Pull();
+                    Application.Current.MainPage = new Navigation.NavigationBar();
+                }
+                else
+                {
+                    users.UserName = "";
+                    users.Password = "";
+                    await DisplayAlert("Invalid Credentials", "Check username and password", "Ok");
+
+                }
             }
-            else
-            {
-                users.Users.UserName = "";
-                users.Users.Password = "";
-                await DisplayAlert("Invalid Credentials", "Check username and password", "Ok");
-               
-            }
+
+
+        }
+
+        private void Username_Completed(object sender, EventArgs e)
+        {
 
         }
     }
