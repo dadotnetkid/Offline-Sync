@@ -95,7 +95,11 @@ namespace Jarcet.Qoutes.WebApi
 
     public static class EnvironmentVariables
     {
+#if DEBUG
+        public const string Website = "http://192.168.254.102:53197/";
+#else
         public const string Website = "http://medtek.ml/app-service/";
+#endif
         public const string SigningKey = "E2EED04CCCED91FD8170172FD529DAB9E32D65CEF7A50F9FE8545921135A77B4";
         
     }

@@ -4,8 +4,11 @@ using System.Text;
 
 namespace Jarcet.Mobile.Models
 {
-   public partial class Users
+    public partial class Users : NotifyPropertyService
     {
+        private string _userName;
+        private string _password;
+
         public string Id { get; set; }
         public string Email { get; set; }
         public bool? EmailConfirmed { get; set; }
@@ -17,7 +20,14 @@ namespace Jarcet.Mobile.Models
         public DateTime? LockoutEndDateUtc { get; set; }
         public bool? LockoutEnabled { get; set; }
         public int? AccessFailedCount { get; set; }
-        public string UserName { get; set; }
+        public string UserName
+        {
+            get => _userName; set
+            {
+                _userName = value;
+                this.OnPropertyChanged();
+            }
+        }
         public string LastUpdatedBy { get; set; }
         public DateTime? LastUpdated { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -36,6 +46,13 @@ namespace Jarcet.Mobile.Models
         public string Religion { get; set; }
         public string Citizenship { get; set; }
         public string Languages { get; set; }
-        public string Password { get;  set; }
+        public string Password
+        {
+            get => _password; set
+            {
+                _password = value;
+                this.OnPropertyChanged();
+            }
+        }
     }
 }

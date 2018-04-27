@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
@@ -12,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Jarcet.Mobile.Models;
 using Microsoft.WindowsAzure.MobileServices;
+using Plugin.Connectivity;
 //using Microsoft.WindowsAzure.MobileServices;
 
 #if OFFLINE_SYNC_ENABLED
@@ -28,7 +30,7 @@ namespace Jarcet.Mobile.Services
 
         #region offline sync
         MobileServiceClient client;
-        const string offlineDbPath = @"localdb.db";
+
 #if OFFLINE_SYNC_ENABLED
         IMobileServiceSyncTable<TEntity> tEntity;
 #else
@@ -40,6 +42,12 @@ namespace Jarcet.Mobile.Services
         public AzureRepository(MobileServiceClient client)
         {
             this.client = client;//new MobileServiceClient(Constants.Constants.ApplicationUrl);
+            string offlineDbPath = "";
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                offlineDbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "LocalDb");
+            }
+
 #if OFFLINE_SYNC_ENABLED
             var store = new MobileServiceSQLiteStore(offlineDbPath);
             store.DefineTable<TEntity>();
@@ -216,7 +224,19 @@ namespace Jarcet.Mobile.Services
                         MaxPageSize = 10
                     });
                 else
-                    await this.tEntity.PullAsync(query == "" ? $"GetAll{tEntity.TableName}" : query, ret);
+                {
+                    if (query == "")
+                    {
+
+                        await this.tEntity.PullAsync(null, ret);
+                    }
+                    else
+                    {
+                        await this.tEntity.PullAsync(query, ret);
+                    }
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -230,7 +250,10 @@ namespace Jarcet.Mobile.Services
 
             try
             {
+
                 await this.client.SyncContext.PushAsync();
+
+
             }
             catch (MobileServicePushFailedException exc)
             {
@@ -300,5 +323,9 @@ namespace Jarcet.Mobile.Services
 
     }
 
+    public class AzureRepository
+    {
+
+    }
 
 }

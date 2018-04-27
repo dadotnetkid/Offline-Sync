@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Jarcet.Mobile.Models;
 using Jarcet.Mobile.Models.User;
 using Jarcet.Mobile.Services;
+using Jarcet.Mobile.Services.OfflineSyncService;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,6 +34,8 @@ namespace Jarcet.Mobile.Views.Member
             var res = await MobileServiceUsers.LoginUserAsync(new Users() { UserName = users.Users.UserName, Password = users.Users.Password });
             if (res)
             {
+                var syncService = new OfflineSyncService(new AzureOfflineSyncService());
+                await syncService.Pull();
                 Application.Current.MainPage = new Navigation.NavigationBar();
             }
             else

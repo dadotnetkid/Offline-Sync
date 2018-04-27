@@ -13,7 +13,7 @@ using Android.Widget;
 using Jarcet.Mobile.Services;
 using Xamarin.Forms;
 using Application = Android.App.Application;
-
+[assembly: Dependency(typeof(Jarcet.Mobile.Droid.Services.PopupServices))]
 namespace Jarcet.Mobile.Droid.Services
 {
     public class PopupServices : IPopupServices
